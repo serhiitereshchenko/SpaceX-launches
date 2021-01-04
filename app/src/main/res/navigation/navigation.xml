@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/launchesFragment">
+
+    <fragment
+        android:id="@+id/launchesFragment"
+        android:name="com.serhii.launches.ui.launches.LaunchesFragment">
+
+        <action
+            android:id="@+id/startRocketDetailsFragment"
+            app:destination="@+id/rocketDetailsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/rocketDetailsFragment"
+        android:name="com.serhii.launches.ui.rocket_details.RocketDetailsFragment">
+
+        <argument
+            android:name="rocketId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
+
+</navigation>

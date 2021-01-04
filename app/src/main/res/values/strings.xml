@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Monese assignment</string>
+
+    <string name="launches_screen_title">All launches</string>
+    <string name="launches_menu_show_successful">Show successful launches</string>
+    <string name="launches_menu_show_all">Show all launches</string>
+
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
+
+    <string name="error_message">Some error occurred</string>
+</resources>
