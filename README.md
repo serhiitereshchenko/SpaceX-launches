@@ -4,7 +4,7 @@ Yet another simple application that parses SpaceX launches and displays it in a 
 
 ## Build
 
-No additional steps are required to build project. Just open it in your favourite IDE and have run it.
+No additional steps are required to build the project. Just open it in your favourite IDE and run.
 
 ## Links
 
