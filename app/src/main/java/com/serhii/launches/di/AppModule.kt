@@ -8,10 +8,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
 
-const val DATABASE_NAME = "Assignment.db";
+const val DATABASE_NAME = "Assignment.db"
 
 @Module
 @InstallIn(ApplicationComponent::class)

@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import java.util.*
+import java.util.UUID
 
 @Keep
 @Entity(tableName = "launches")

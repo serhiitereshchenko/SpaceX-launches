@@ -1,7 +1,7 @@
 package com.serhii.launches.data.network
 
-import com.serhii.launches.data.network.pojo.LaunchModel
-import com.serhii.launches.data.network.pojo.RocketModel
+import com.serhii.launches.data.network.data.LaunchModel
+import com.serhii.launches.data.network.data.RocketModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

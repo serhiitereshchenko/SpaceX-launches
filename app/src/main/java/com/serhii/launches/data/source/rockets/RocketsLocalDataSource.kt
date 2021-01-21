@@ -12,7 +12,6 @@ interface RocketsLocalDataSource {
     suspend fun getRocketById(id: String): Resource<Rocket>
 
     suspend fun saveRocket(rocket: Rocket)
-
 }
 
 class RocketsLocalSourceImpl internal constructor(

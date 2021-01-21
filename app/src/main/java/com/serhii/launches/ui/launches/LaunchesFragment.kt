@@ -1,7 +1,9 @@
 package com.serhii.launches.ui.launches
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,7 +24,8 @@ class LaunchesFragment : Fragment() {
     private val viewModel by viewModels<LaunchesViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.launches_fragment, container, false)
 
@@ -30,7 +33,10 @@ class LaunchesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initList()
+        observeData()
+    }
 
+    private fun observeData() {
         viewModel.launches.observe(viewLifecycleOwner, {
             swipe_to_refresh.isRefreshing = (it == Resource.Loading)
 
@@ -43,7 +49,6 @@ class LaunchesFragment : Fragment() {
                 Toast.makeText(context, R.string.error_message, Toast.LENGTH_SHORT).show()
             }
         })
-
         viewModel.loadLaunches()
     }
 
@@ -104,7 +109,7 @@ private class LaunchesAdapter(
     }
 
     class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.launch_row_item, parent, false)) {
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.launch_item, parent, false)) {
 
         private var tvName: TextView = itemView.findViewById(R.id.tv_name)
         private var tvDate: TextView = itemView.findViewById(R.id.tv_date)

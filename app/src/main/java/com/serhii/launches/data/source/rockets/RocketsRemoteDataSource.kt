@@ -2,17 +2,16 @@ package com.serhii.launches.data.source.rockets
 
 import com.serhii.launches.data.model.Rocket
 import com.serhii.launches.data.network.SpaceXService
-import com.serhii.launches.data.network.pojo.toRocket
+import com.serhii.launches.data.network.data.toRocket
 import com.serhii.launches.mvvm.Resource
+import java.io.IOException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.IOException
 
 interface RocketsRemoteDataSource {
 
     suspend fun getRocketById(id: String): Resource<Rocket>
-
 }
 
 class RocketsRemoteSourceImpl(

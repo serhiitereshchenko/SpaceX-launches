@@ -7,10 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
 @Module
@@ -35,5 +35,4 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideSpaceXService(api: SpaceXApi): SpaceXService = SpaceXService(api)
-
 }

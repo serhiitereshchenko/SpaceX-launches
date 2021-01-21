@@ -1,10 +1,10 @@
 package com.serhii.launches.data.source.launches
 
+import com.serhii.launches.data.database.LaunchesDao
+import com.serhii.launches.data.model.Launch
 import com.serhii.launches.mvvm.Resource
 import com.serhii.launches.mvvm.Resource.Error
 import com.serhii.launches.mvvm.Resource.Success
-import com.serhii.launches.data.database.LaunchesDao
-import com.serhii.launches.data.model.Launch
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,7 +16,6 @@ interface LaunchesLocalDataSource {
     suspend fun saveLaunch(launch: Launch)
     suspend fun saveLaunches(launches: List<Launch>)
     suspend fun deleteLaunches()
-
 }
 
 class LaunchesLocalDataSourceImpl internal constructor(

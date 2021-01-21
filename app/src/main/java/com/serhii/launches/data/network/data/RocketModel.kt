@@ -1,4 +1,4 @@
-package com.serhii.launches.data.network.pojo
+package com.serhii.launches.data.network.data
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
@@ -10,7 +10,12 @@ data class RocketModel(
     @SerializedName("name") val name: String,
     @SerializedName("description") val description: String,
     @SerializedName("flickr_images") val images: List<String>
-)
+) {
+    init {
+        require(id.isNotEmpty()) { "Rocket id cannot be empty" }
+        require(name.isNotEmpty()) { "Rocket name cannot be empty" }
+    }
+}
 
 fun RocketModel.toRocket(): Rocket = Rocket(
     id = id,

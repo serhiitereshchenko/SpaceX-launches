@@ -14,5 +14,4 @@ class UtilitiesModule {
     @Singleton
     @Provides
     fun provideDateFormatter(): DateFormatter = DateFormatter()
-
 }

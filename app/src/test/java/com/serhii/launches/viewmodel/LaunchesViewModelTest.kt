@@ -1,17 +1,17 @@
-package com.serhii.launches
+package com.serhii.launches.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.stub
 import com.serhii.launches.data.model.Launch
 import com.serhii.launches.data.repository.LaunchesRepository
 import com.serhii.launches.data.repository.LaunchesRepositoryImpl
 import com.serhii.launches.data.source.launches.LaunchesLocalDataSource
 import com.serhii.launches.data.source.launches.LaunchesRemoteDataSource
 import com.serhii.launches.mvvm.Resource
+import com.serhii.launches.rules.TestCoroutineRule
 import com.serhii.launches.ui.launches.DateFormatter
 import com.serhii.launches.ui.launches.LaunchesViewModel
-import com.serhii.launches.rules.TestCoroutineRule
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.stub
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -19,7 +19,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.never
+import org.mockito.BDDMockito.verify
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
@@ -30,18 +31,16 @@ class LaunchesViewModelTest {
 
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
-
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private lateinit var launchesRepository: LaunchesRepository
-    private lateinit var viewModel: LaunchesViewModel
-
     @Mock
     private lateinit var launchesRemoteDataSource: LaunchesRemoteDataSource
-
     @Mock
     private lateinit var launchesLocalDataSource: LaunchesLocalDataSource
+
+    private lateinit var launchesRepository: LaunchesRepository
+    private lateinit var viewModel: LaunchesViewModel
 
     private val dateFormatter: DateFormatter = DateFormatter()
 

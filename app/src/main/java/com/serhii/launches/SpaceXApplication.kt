@@ -7,11 +7,13 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 @HiltAndroidApp
-class AssignmentApplication : Application() {
+class SpaceXApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) Timber.plant(DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 }

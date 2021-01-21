@@ -10,5 +10,5 @@ abstract class AssignmentDatabase : RoomDatabase() {
 
     abstract fun launchesDao(): LaunchesDao
 
-    abstract fun rocketsDao() : RocketsDao
+    abstract fun rocketsDao(): RocketsDao
 }

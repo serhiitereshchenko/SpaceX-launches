@@ -27,10 +27,15 @@ class RocketDetailsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.rocket_details_fragment, container, false);
+    ): View? = inflater.inflate(R.layout.rocket_details_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUI()
+        observeData()
+    }
+
+    private fun initUI() {
         swipe_to_refresh.setOnRefreshListener {
             viewModel.loadRocket(
                 id = args.rocketId,
@@ -38,7 +43,9 @@ class RocketDetailsFragment : Fragment() {
             )
         }
         toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+    }
 
+    private fun observeData() {
         viewModel.rocket.observe(viewLifecycleOwner, {
             swipe_to_refresh.isRefreshing = (it == Resource.Loading)
 
@@ -54,7 +61,6 @@ class RocketDetailsFragment : Fragment() {
                 Timber.e(it.exception)
                 Toast.makeText(context, R.string.error_message, Toast.LENGTH_SHORT).show()
             }
-
         })
 
         viewModel.loadRocket(args.rocketId)

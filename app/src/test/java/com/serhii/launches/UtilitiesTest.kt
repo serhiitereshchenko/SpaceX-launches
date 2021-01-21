@@ -10,10 +10,9 @@ import org.mockito.junit.MockitoJUnitRunner
 class UtilitiesTest {
 
     @Test
-    fun `date formatter should return normal date`() {
+    fun `date formatter should return formatted date`() {
         val formatter = DateFormatter()
         val unixTimeStamp = 1605287612L
         assertEquals(formatter.formatDate(unixTimeStamp), "13 Nov 2020 19:13:32")
     }
-
 }

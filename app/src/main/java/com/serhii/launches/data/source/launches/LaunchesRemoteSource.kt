@@ -1,18 +1,17 @@
 package com.serhii.launches.data.source.launches
 
-import com.serhii.launches.mvvm.Resource
 import com.serhii.launches.data.model.Launch
 import com.serhii.launches.data.network.SpaceXService
-import com.serhii.launches.data.network.pojo.toLaunch
+import com.serhii.launches.data.network.data.toLaunch
+import com.serhii.launches.mvvm.Resource
+import java.io.IOException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.IOException
 
 interface LaunchesRemoteDataSource {
 
     suspend fun getLaunches(): Resource<List<Launch>>
-
 }
 
 class LaunchesRemoteSourceImpl(

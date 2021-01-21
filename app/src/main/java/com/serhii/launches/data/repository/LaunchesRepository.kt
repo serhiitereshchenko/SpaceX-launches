@@ -1,9 +1,9 @@
 package com.serhii.launches.data.repository
 
-import com.serhii.launches.mvvm.Resource
 import com.serhii.launches.data.model.Launch
 import com.serhii.launches.data.source.launches.LaunchesLocalDataSource
 import com.serhii.launches.data.source.launches.LaunchesRemoteDataSource
+import com.serhii.launches.mvvm.Resource
 import com.serhii.launches.mvvm.isEmptyList
 import java.lang.Exception
 
