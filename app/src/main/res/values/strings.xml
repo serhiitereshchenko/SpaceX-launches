@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Monese assignment</string>
+    <string name="app_name">SpaceX launches</string>
 
     <string name="launches_screen_title">All launches</string>
     <string name="launches_menu_show_successful">Show successful launches</string>
