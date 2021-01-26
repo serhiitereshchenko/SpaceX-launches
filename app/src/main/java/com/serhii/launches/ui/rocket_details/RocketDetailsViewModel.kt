@@ -20,9 +20,7 @@ class RocketDetailsViewModel @ViewModelInject constructor(
     fun loadRocket(id: String, forceUpdate: Boolean = false) {
         viewModelScope.launch {
             _rocket.value = Resource.Loading
-            rocketsRepository.getRocket(id, forceUpdate).let { result ->
-                _rocket.value = result
-            }
+            rocketsRepository.getRocket(id, forceUpdate).let { _rocket.value = it }
         }
     }
 }

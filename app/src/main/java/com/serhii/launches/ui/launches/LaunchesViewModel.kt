@@ -32,7 +32,7 @@ class LaunchesViewModel @ViewModelInject constructor(
                 var resource: Resource<List<Launch>>? = result
                 if (result is Resource.Success) {
                     result.data.map { it.formattedDate = dateFormatter.formatDate(it.date) }
-                    filterCriteria?.let { filter: (launch: Launch) -> Boolean ->
+                    filterCriteria?.let { filter ->
                         resource = Resource.Success(result.data.filter { filter.invoke(it) })
                     }
                 }
