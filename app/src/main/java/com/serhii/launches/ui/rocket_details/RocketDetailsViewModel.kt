@@ -1,16 +1,18 @@
 package com.serhii.launches.ui.rocket_details
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhii.launches.data.model.Rocket
-import com.serhii.launches.data.repository.RocketsRepository
-import com.serhii.launches.mvvm.Resource
+import com.serhii.repository.model.Rocket
+import com.serhii.repository.repository.RocketsRepository
+import com.serhii.repository.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RocketDetailsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class RocketDetailsViewModel @Inject constructor(
     private val rocketsRepository: RocketsRepository
 ) : ViewModel() {
 

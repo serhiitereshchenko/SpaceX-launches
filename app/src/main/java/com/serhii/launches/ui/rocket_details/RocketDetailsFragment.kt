@@ -11,23 +11,28 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.sehii.launches.R
-import com.serhii.launches.mvvm.Resource
+import com.sehii.launches.databinding.RocketDetailsFragmentBinding
+import com.serhii.repository.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.rocket_details_fragment.*
 import timber.log.Timber
 
 @AndroidEntryPoint
 class RocketDetailsFragment : Fragment() {
 
     private val args: RocketDetailsFragmentArgs by navArgs()
-
     private val viewModel by viewModels<RocketDetailsViewModel>()
+
+    private var _binding: RocketDetailsFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.rocket_details_fragment, container, false)
+    ): View {
+        _binding = RocketDetailsFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,25 +41,25 @@ class RocketDetailsFragment : Fragment() {
     }
 
     private fun initUI() {
-        swipe_to_refresh.setOnRefreshListener {
+        binding.swipeToRefresh.setOnRefreshListener {
             viewModel.loadRocket(
                 id = args.rocketId,
                 forceUpdate = true
             )
         }
-        toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
     }
 
     private fun observeData() {
         viewModel.rocket.observe(viewLifecycleOwner, {
-            swipe_to_refresh.isRefreshing = (it == Resource.Loading)
+            binding.swipeToRefresh.isRefreshing = (it == Resource.Loading)
 
             if (it is Resource.Success) {
                 val rocket = it.data
-                rocket_name.text = rocket.name
-                toolbar.title = rocket.name
-                rocket_description.text = rocket.description
-                Glide.with(this).load(rocket.imageUrl).into(rocket_image)
+                binding.rocketName.text = rocket.name
+                binding.toolbar.title = rocket.name
+                binding.rocketDescription.text = rocket.description
+                Glide.with(this).load(rocket.imageUrl).into(binding.rocketImage)
             }
 
             if (it is Resource.Error) {
