@@ -16,7 +16,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_to_refresh"
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,7 +32,7 @@
                 android:paddingBottom="8dp">
 
                 <TextView
-                    android:id="@+id/rocket_name"
+                    android:id="@+id/rocketName"
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -42,14 +42,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/rocket_description"
+                    android:id="@+id/rocketDescription"
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rocket_name" />
+                    app:layout_constraintTop_toBottomOf="@id/rocketName" />
 
                 <ImageView
                     android:id="@+id/rocket_image"
@@ -60,7 +60,7 @@
                     app:layout_constraintDimensionRatio="16:9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rocket_description" />
+                    app:layout_constraintTop_toBottomOf="@id/rocketDescription" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>

@@ -14,3 +14,5 @@ No additional steps are required to build the project. Just open it in your favo
 ## Links
 
 [SpaceX API](https://github.com/r-spacex/SpaceX-API/blob/master/docs/v4/README.md)
+[Guide to app architecture](https://developer.android.com/jetpack/guide)
+[Kotlin coroutines guide](https://kotlinlang.org/docs/coroutines-guide.html)

@@ -20,7 +20,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_to_refresh"
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/launches_list"
+            android:id="@+id/launchesList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

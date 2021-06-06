@@ -2,14 +2,14 @@ package com.serhii.launches.ui.launches
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sehii.launches.R
+import com.sehii.launches.databinding.LaunchItemBinding
 import com.serhii.repository.model.Launch
 
 class LaunchesAdapter(
     launches: List<Launch> = emptyList()
-) : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LaunchesAdapter.LaunchViewHolder>() {
 
     private var launchesList = launches
     private var onLaunchClickListener: OnLaunchClickListener? = null
@@ -19,34 +19,30 @@ class LaunchesAdapter(
         notifyDataSetChanged()
     }
 
-    fun setLaunchClickListener(listener: OnLaunchClickListener) {
+    fun setOnLaunchClickListener(listener: OnLaunchClickListener) {
         this.onLaunchClickListener = listener
     }
 
-    class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.launch_item, parent, false)) {
-
-        private var tvName: TextView = itemView.findViewById(R.id.tv_name)
-        private var tvDate: TextView = itemView.findViewById(R.id.tv_date)
-        private var tvResult: TextView = itemView.findViewById(R.id.tv_result)
+    class LaunchViewHolder(private val itemBinding: LaunchItemBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(launch: Launch, clickListener: OnLaunchClickListener? = null) {
-            tvName.text = launch.name
-            tvDate.text = launch.formattedDate
-            tvResult.text =
+            itemBinding.nameText.text = launch.name
+            itemBinding.dateText.text = launch.formattedDate
+            itemBinding.resultText.text =
                 itemView.context.getString(if (launch.isSuccess) R.string.success else R.string.fail)
             itemView.setOnClickListener { clickListener?.onLaunchClicked(launch) }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(parent.context), parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder =
+        LaunchViewHolder(LaunchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount(): Int = launchesList.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holderLaunch: LaunchViewHolder, position: Int) {
         val launch = launchesList[position]
-        holder.bind(launch, onLaunchClickListener)
+        holderLaunch.bind(launch, onLaunchClickListener)
     }
 
     interface OnLaunchClickListener {

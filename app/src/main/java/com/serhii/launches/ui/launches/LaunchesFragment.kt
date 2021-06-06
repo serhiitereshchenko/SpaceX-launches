@@ -84,7 +84,7 @@ class LaunchesFragment : Fragment() {
             adapter = LaunchesAdapter().apply {
                 stateRestorationPolicy =
                     RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-                setLaunchClickListener(object : LaunchesAdapter.OnLaunchClickListener {
+                setOnLaunchClickListener(object : LaunchesAdapter.OnLaunchClickListener {
                     override fun onLaunchClicked(launch: Launch) {
                         val action =
                             LaunchesFragmentDirections.startRocketDetailsFragment(launch.rocketId)
