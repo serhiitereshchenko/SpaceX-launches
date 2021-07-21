@@ -6,6 +6,7 @@ import com.serhii.repository.model.Launch
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 interface LaunchesLocalDataSource {
 
@@ -25,6 +26,7 @@ class LaunchesLocalDataSourceImpl constructor(
         return@withContext try {
             Resource.Success(launchesDao.getLaunches())
         } catch (e: Exception) {
+            Timber.e(e)
             Resource.Error(e)
         }
     }
@@ -33,19 +35,32 @@ class LaunchesLocalDataSourceImpl constructor(
         return@withContext try {
             Resource.Success(launchesDao.getLaunchById(id))
         } catch (e: Exception) {
+            Timber.e(e)
             Resource.Error(e)
         }
     }
 
     override suspend fun saveLaunch(launch: Launch) = withContext(ioDispatcher) {
-        launchesDao.insertLaunch(launch)
+        try {
+            launchesDao.insertLaunch(launch)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 
     override suspend fun saveLaunches(launches: List<Launch>) = withContext(ioDispatcher) {
-        launchesDao.insertLaunches(launches)
+        try {
+            launchesDao.insertLaunches(launches)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 
     override suspend fun deleteLaunches() {
-        launchesDao.deleteAllLaunches()
+        try {
+            launchesDao.deleteAllLaunches()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 }

@@ -14,7 +14,6 @@ import com.sehii.launches.R
 import com.sehii.launches.databinding.RocketDetailsFragmentBinding
 import com.serhii.repository.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class RocketDetailsFragment : Fragment() {
@@ -23,7 +22,7 @@ class RocketDetailsFragment : Fragment() {
     private val viewModel by viewModels<RocketDetailsViewModel>()
 
     private var _binding: RocketDetailsFragmentBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = requireNotNull(_binding) { "RocketDetailsFragmentBinding can't be null" }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +36,7 @@ class RocketDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        observeData()
+        observeRocket()
     }
 
     private fun initUI() {
@@ -50,7 +49,7 @@ class RocketDetailsFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
     }
 
-    private fun observeData() {
+    private fun observeRocket() {
         viewModel.rocket.observe(viewLifecycleOwner, {
             binding.swipeToRefresh.isRefreshing = (it == Resource.Loading)
 
@@ -63,7 +62,6 @@ class RocketDetailsFragment : Fragment() {
             }
 
             if (it is Resource.Error) {
-                Timber.e(it.exception)
                 Toast.makeText(context, R.string.error_message, Toast.LENGTH_SHORT).show()
             }
         })

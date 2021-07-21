@@ -6,7 +6,7 @@ import com.serhii.repository.model.Launch
 import com.serhii.repository.model.Rocket
 
 @Database(entities = [Launch::class, Rocket::class], version = 1, exportSchema = false)
-abstract class AssignmentDatabase : RoomDatabase() {
+abstract class SpaceXDatabase : RoomDatabase() {
 
     abstract fun launchesDao(): LaunchesDao
 

@@ -3,14 +3,14 @@ package com.serhii.launches.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.stub
+import com.serhii.launches.rules.TestCoroutineRule
+import com.serhii.launches.ui.rocket_details.RocketDetailsViewModel
+import com.serhii.repository.Resource
 import com.serhii.repository.model.Rocket
 import com.serhii.repository.repository.RocketsRepository
 import com.serhii.repository.repository.RocketsRepositoryImpl
 import com.serhii.repository.source.rockets.RocketsLocalDataSource
 import com.serhii.repository.source.rockets.RocketsRemoteDataSource
-import com.serhii.launches.rules.TestCoroutineRule
-import com.serhii.launches.ui.rocket_details.RocketDetailsViewModel
-import com.serhii.repository.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

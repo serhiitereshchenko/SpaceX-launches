@@ -8,5 +8,5 @@
     <string name="success">Success</string>
     <string name="fail">Fail</string>
 
-    <string name="error_message">Some error occurred</string>
+    <string name="error_message">Error occurred. Please check logs</string>
 </resources>

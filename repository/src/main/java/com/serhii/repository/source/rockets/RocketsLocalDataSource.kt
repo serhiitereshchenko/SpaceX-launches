@@ -6,6 +6,7 @@ import com.serhii.repository.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 interface RocketsLocalDataSource {
 
@@ -23,11 +24,16 @@ class RocketsLocalSourceImpl constructor(
         return@withContext try {
             Resource.Success(rocketsDao.getRocketById(id))
         } catch (e: Exception) {
+            Timber.e(e)
             Resource.Error(e)
         }
     }
 
     override suspend fun saveRocket(rocket: Rocket) = withContext(ioDispatcher) {
-        rocketsDao.insertRocket(rocket)
+        try {
+            rocketsDao.insertRocket(rocket)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 }

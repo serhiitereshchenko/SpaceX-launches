@@ -11,13 +11,13 @@ class LaunchesAdapter(
     launches: List<Launch> = emptyList()
 ) : RecyclerView.Adapter<LaunchesAdapter.LaunchViewHolder>() {
 
-    private var launchesList = launches
     private var onLaunchClickListener: OnLaunchClickListener? = null
 
-    fun setList(list: List<Launch>) {
-        launchesList = list
-        notifyDataSetChanged()
-    }
+    var launchesList = launches
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     fun setOnLaunchClickListener(listener: OnLaunchClickListener) {
         this.onLaunchClickListener = listener
@@ -36,7 +36,13 @@ class LaunchesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder =
-        LaunchViewHolder(LaunchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        LaunchViewHolder(
+            LaunchItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun getItemCount(): Int = launchesList.size
 

@@ -2,7 +2,7 @@ package com.serhii.repository.di
 
 import android.content.Context
 import androidx.room.Room
-import com.serhii.repository.database.AssignmentDatabase
+import com.serhii.repository.database.SpaceXDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +18,10 @@ class StorageModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AssignmentDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): SpaceXDatabase {
         return Room.databaseBuilder(
-            context.applicationContext,
-            AssignmentDatabase::class.java,
+            context,
+            SpaceXDatabase::class.java,
             DATABASE_NAME
         ).build()
     }

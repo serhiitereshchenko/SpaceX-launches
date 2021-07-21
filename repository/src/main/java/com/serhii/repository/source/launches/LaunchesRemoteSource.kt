@@ -8,6 +8,7 @@ import java.io.IOException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 interface LaunchesRemoteDataSource {
 
@@ -20,12 +21,13 @@ class LaunchesRemoteSourceImpl(
 ) : LaunchesRemoteDataSource {
 
     override suspend fun getLaunches(): Resource<List<Launch>> = withContext(ioDispatcher) {
-        val response = apiService.getLatestLaunchesAsync()
-        if (response.isSuccessful) {
-            val launches = response.body()?.map { it.toLaunch() }
-            Resource.Success(launches.orEmpty())
-        } else {
-            Resource.Error(IOException("Error retrieving launches from cloud"))
+        try {
+            val launches = apiService.getLaunchesAsync()
+                .map { launchModel -> launchModel.toLaunch() }
+            Resource.Success(launches)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
     }
 }

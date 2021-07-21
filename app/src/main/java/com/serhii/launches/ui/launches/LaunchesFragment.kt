@@ -11,19 +11,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sehii.launches.R
 import com.sehii.launches.databinding.LaunchesFragmentBinding
-import com.serhii.repository.model.Launch
 import com.serhii.repository.Resource
+import com.serhii.repository.model.Launch
 import com.serhii.repository.succeeded
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LaunchesFragment : Fragment() {
 
     private val viewModel by viewModels<LaunchesViewModel>()
-
     private var _binding: LaunchesFragmentBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = requireNotNull(_binding) { "LaunchesFragmentBinding can't be null" }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,19 +36,19 @@ class LaunchesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initList()
-        observeData()
+        observeLaunches()
     }
 
-    private fun observeData() {
+    private fun observeLaunches() {
         viewModel.launches.observe(viewLifecycleOwner, {
             binding.swipeToRefresh.isRefreshing = (it == Resource.Loading)
 
             if (it.succeeded) {
-                (binding.launchesList.adapter as LaunchesAdapter).setList((it as Resource.Success).data)
+                (binding.launchesList.adapter as LaunchesAdapter).launchesList =
+                    (it as Resource.Success).data
             }
 
             if (it is Resource.Error) {
-                Timber.e(it.exception)
                 Toast.makeText(context, R.string.error_message, Toast.LENGTH_SHORT).show()
             }
         })

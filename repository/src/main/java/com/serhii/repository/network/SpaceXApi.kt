@@ -11,7 +11,7 @@ const val SPACE_X_ENDPOINT_URL = "https://api.spacexdata.com/"
 interface SpaceXApi {
 
     @GET("/v4/launches")
-    suspend fun getLatestLaunchesAsync(): Response<List<LaunchModel>>
+    suspend fun getLaunchesAsync(): Response<List<LaunchModel>>
 
     @GET("/v4/rockets/{id}")
     suspend fun getRocketAsync(@Path("id") id: String): Response<RocketModel>

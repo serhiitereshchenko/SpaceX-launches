@@ -1,4 +1,4 @@
-package com.serhii.repository.data
+package com.serhii.repository.model
 
 import com.serhii.repository.network.data.LaunchModel
 import com.serhii.repository.network.data.UNKNOWN_DATE
@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class LaunchesModelTest {
 
     @Test(expected = IllegalArgumentException::class)

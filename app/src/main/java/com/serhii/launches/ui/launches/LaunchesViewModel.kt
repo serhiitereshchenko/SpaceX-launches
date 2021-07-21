@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serhii.repository.Resource
 import com.serhii.repository.model.Launch
 import com.serhii.repository.repository.LaunchesRepository
-import com.serhii.repository.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LaunchesViewModel @Inject constructor(

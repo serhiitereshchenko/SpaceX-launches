@@ -1,6 +1,6 @@
 package com.serhii.repository.di
 
-import com.serhii.repository.database.AssignmentDatabase
+import com.serhii.repository.database.SpaceXDatabase
 import com.serhii.repository.network.SpaceXService
 import com.serhii.repository.repository.LaunchesRepository
 import com.serhii.repository.repository.LaunchesRepositoryImpl
@@ -45,7 +45,7 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideLaunchesLocalDataSource(
-        database: AssignmentDatabase,
+        database: SpaceXDatabase,
         ioDispatcher: CoroutineDispatcher
     ): LaunchesLocalDataSource {
         return LaunchesLocalDataSourceImpl(
@@ -73,7 +73,7 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideRocketsLocalDataSource(
-        database: AssignmentDatabase,
+        database: SpaceXDatabase,
         ioDispatcher: CoroutineDispatcher
     ): RocketsLocalDataSource {
         return RocketsLocalSourceImpl(
