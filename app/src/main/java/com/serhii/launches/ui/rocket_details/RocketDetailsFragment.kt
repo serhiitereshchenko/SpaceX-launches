@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.sehii.launches.R
 import com.sehii.launches.databinding.RocketDetailsFragmentBinding
 import com.serhii.repository.Resource
+import com.serhii.repository.hasData
+import com.serhii.repository.model.Rocket
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +25,11 @@ class RocketDetailsFragment : Fragment() {
 
     private var _binding: RocketDetailsFragmentBinding? = null
     private val binding get() = requireNotNull(_binding) { "RocketDetailsFragmentBinding can't be null" }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadRocket(args.rocketId)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,19 +60,18 @@ class RocketDetailsFragment : Fragment() {
         viewModel.rocket.observe(viewLifecycleOwner, {
             binding.swipeToRefresh.isRefreshing = (it == Resource.Loading)
 
-            if (it is Resource.Success) {
-                val rocket = it.data
-                binding.rocketName.text = rocket.name
-                binding.toolbar.title = rocket.name
-                binding.rocketDescription.text = rocket.description
-                Glide.with(this).load(rocket.imageUrl).into(binding.rocketImage)
+            if (it.hasData) {
+                (it as Resource.Success).data?.let { rocket: Rocket ->
+                    binding.rocketName.text = rocket.name
+                    binding.toolbar.title = rocket.name
+                    binding.rocketDescription.text = rocket.description
+                    Glide.with(this).load(rocket.imageUrl).into(binding.rocketImage)
+                }
             }
 
             if (it is Resource.Error) {
                 Toast.makeText(context, R.string.error_message, Toast.LENGTH_SHORT).show()
             }
         })
-
-        viewModel.loadRocket(args.rocketId)
     }
 }

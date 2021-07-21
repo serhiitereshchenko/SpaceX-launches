@@ -24,16 +24,11 @@ class RocketsLocalSourceImpl constructor(
         return@withContext try {
             Resource.Success(rocketsDao.getRocketById(id))
         } catch (e: Exception) {
-            Timber.e(e)
             Resource.Error(e)
         }
     }
 
     override suspend fun saveRocket(rocket: Rocket) = withContext(ioDispatcher) {
-        try {
-            rocketsDao.insertRocket(rocket)
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
+        rocketsDao.insertRocket(rocket)
     }
 }

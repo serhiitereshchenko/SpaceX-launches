@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sehii.launches.R
 import com.sehii.launches.databinding.LaunchesFragmentBinding
 import com.serhii.repository.Resource
+import com.serhii.repository.hasData
 import com.serhii.repository.model.Launch
-import com.serhii.repository.succeeded
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +22,11 @@ class LaunchesFragment : Fragment() {
     private val viewModel by viewModels<LaunchesViewModel>()
     private var _binding: LaunchesFragmentBinding? = null
     private val binding get() = requireNotNull(_binding) { "LaunchesFragmentBinding can't be null" }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadLaunches()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +48,15 @@ class LaunchesFragment : Fragment() {
         viewModel.launches.observe(viewLifecycleOwner, {
             binding.swipeToRefresh.isRefreshing = (it == Resource.Loading)
 
-            if (it.succeeded) {
+            if (it.hasData) {
                 (binding.launchesList.adapter as LaunchesAdapter).launchesList =
-                    (it as Resource.Success).data
+                    (it as Resource.Success).data.orEmpty()
             }
 
             if (it is Resource.Error) {
                 Toast.makeText(context, R.string.error_message, Toast.LENGTH_SHORT).show()
             }
         })
-        viewModel.loadLaunches()
     }
 
     private fun initToolbar() {
@@ -62,7 +66,7 @@ class LaunchesFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.filter_success -> {
-                        viewModel.filterCriteria = FilterCriteria.SuccessFilter
+                        viewModel.filterCriteria = FilterCriteria.SuccessLaunch
                         return@setOnMenuItemClickListener true
                     }
                     R.id.filter_all -> {

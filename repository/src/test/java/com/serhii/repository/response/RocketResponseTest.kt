@@ -47,5 +47,4 @@ class RocketResponseTest {
             rocket.id
         )
     }
-
 }

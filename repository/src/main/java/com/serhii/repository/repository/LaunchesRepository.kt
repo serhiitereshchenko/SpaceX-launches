@@ -4,8 +4,9 @@ import com.serhii.repository.model.Launch
 import com.serhii.repository.source.launches.LaunchesLocalDataSource
 import com.serhii.repository.source.launches.LaunchesRemoteDataSource
 import com.serhii.repository.Resource
+import com.serhii.repository.hasData
 import com.serhii.repository.isEmptyList
-import java.lang.Exception
+import timber.log.Timber
 
 interface LaunchesRepository {
     suspend fun getLaunches(forceUpdate: Boolean = false): Resource<List<Launch>>
@@ -17,34 +18,22 @@ class LaunchesRepositoryImpl(
 ) : LaunchesRepository {
 
     override suspend fun getLaunches(forceUpdate: Boolean): Resource<List<Launch>> {
-
-        suspend fun getFromRemote(): Resource<List<Launch>> {
-            return try {
-                updateLaunchesFromRemoteDataSource()
-                localDataSource.getLaunches()
-            } catch (ex: Exception) {
-                Resource.Error(ex)
+        try {
+            if (forceUpdate || localDataSource.getLaunches().isEmptyList) {
+                updateFromRemoteSource()
             }
+        } catch (e: Exception) {
+            Timber.e(e)
+            return Resource.Error(e)
         }
-
-        return if (forceUpdate) {
-            getFromRemote()
-        } else {
-            val launches = localDataSource.getLaunches()
-            if (launches.isEmptyList) {
-                getFromRemote()
-            } else {
-                launches
-            }
-        }
+        return localDataSource.getLaunches()
     }
 
-    private suspend fun updateLaunchesFromRemoteDataSource() {
+    private suspend fun updateFromRemoteSource() {
         val remoteLaunches = remoteDataSource.getLaunches()
-
-        if (remoteLaunches is Resource.Success) {
+        if (remoteLaunches.hasData) {
             localDataSource.deleteLaunches()
-            localDataSource.saveLaunches(remoteLaunches.data)
+            (remoteLaunches as Resource.Success).data?.let { localDataSource.saveLaunches(it) }
         } else if (remoteLaunches is Resource.Error) {
             throw remoteLaunches.exception
         }

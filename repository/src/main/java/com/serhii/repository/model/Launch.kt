@@ -11,7 +11,7 @@ import java.util.UUID
 @Entity(tableName = "launches")
 data class Launch @JvmOverloads constructor(
     @ColumnInfo(name = "name") var name: String = "",
-    @ColumnInfo(name = "date") var date: Long = 1L,
+    @ColumnInfo(name = "date") var rawDate: Long = 1L,
     @ColumnInfo(name = "success") var isSuccess: Boolean = false,
     @ColumnInfo(name = "rocket_id") var rocketId: String = "",
     @PrimaryKey @ColumnInfo(name = "entry_id") var id: String = UUID.randomUUID().toString(),

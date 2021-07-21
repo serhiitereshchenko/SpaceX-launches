@@ -26,7 +26,6 @@ class LaunchesLocalDataSourceImpl constructor(
         return@withContext try {
             Resource.Success(launchesDao.getLaunches())
         } catch (e: Exception) {
-            Timber.e(e)
             Resource.Error(e)
         }
     }
@@ -35,32 +34,19 @@ class LaunchesLocalDataSourceImpl constructor(
         return@withContext try {
             Resource.Success(launchesDao.getLaunchById(id))
         } catch (e: Exception) {
-            Timber.e(e)
             Resource.Error(e)
         }
     }
 
     override suspend fun saveLaunch(launch: Launch) = withContext(ioDispatcher) {
-        try {
-            launchesDao.insertLaunch(launch)
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
+        launchesDao.insertLaunch(launch)
     }
 
     override suspend fun saveLaunches(launches: List<Launch>) = withContext(ioDispatcher) {
-        try {
-            launchesDao.insertLaunches(launches)
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
+        launchesDao.insertLaunches(launches)
     }
 
     override suspend fun deleteLaunches() {
-        try {
-            launchesDao.deleteAllLaunches()
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
+        launchesDao.deleteAllLaunches()
     }
 }

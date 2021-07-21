@@ -23,7 +23,7 @@ data class LaunchModel(
 
 fun LaunchModel.toLaunch(): Launch = Launch(
     name = name,
-    date = dateUnix ?: UNKNOWN_DATE,
+    rawDate = dateUnix ?: UNKNOWN_DATE,
     isSuccess = success ?: false,
     id = id,
     rocketId = rocketId

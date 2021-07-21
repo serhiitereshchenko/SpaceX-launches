@@ -1,27 +1,21 @@
 package com.serhii.launches.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.stub
+import com.nhaarman.mockitokotlin2.given
 import com.serhii.launches.rules.TestCoroutineRule
 import com.serhii.launches.ui.rocket_details.RocketDetailsViewModel
 import com.serhii.repository.Resource
 import com.serhii.repository.model.Rocket
 import com.serhii.repository.repository.RocketsRepository
-import com.serhii.repository.repository.RocketsRepositoryImpl
-import com.serhii.repository.source.rockets.RocketsLocalDataSource
-import com.serhii.repository.source.rockets.RocketsRemoteDataSource
+import java.io.IOException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito.never
 import org.mockito.BDDMockito.verify
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
@@ -29,44 +23,26 @@ import org.mockito.junit.MockitoJUnitRunner
 class RocketDetailsViewModelTest {
 
     @get:Rule
-    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
+    val testInstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
+    @Mock
     private lateinit var rocketsRepository: RocketsRepository
-    private lateinit var viewModel: RocketDetailsViewModel
 
-    @Mock
-    private lateinit var rocketsRemoteDataSource: RocketsRemoteDataSource
-    @Mock
-    private lateinit var rocketsLocalDataSource: RocketsLocalDataSource
+    private lateinit var viewModel: RocketDetailsViewModel
+    private val rocket: Rocket = Rocket()
 
     @Before
     fun setup() {
-        MockitoAnnotations.openMocks(this)
-        rocketsRepository = RocketsRepositoryImpl(rocketsRemoteDataSource, rocketsLocalDataSource)
-
         viewModel = RocketDetailsViewModel(rocketsRepository)
     }
 
     @Test
-    fun `update from remote storage when force update flag is true`(): Unit = runBlocking {
-        viewModel.loadRocket(ROCKET.id, true)
-        verify(rocketsRemoteDataSource).getRocketById(ROCKET.id)
-    }
-
-    @Test
-    fun `update from local storage when force update flag is false and has local data`(): Unit = runBlocking {
-        rocketsLocalDataSource.stub {
-            onBlocking { getRocketById(ROCKET.id) }.doReturn(Resource.Success(ROCKET))
-        }
-        viewModel.loadRocket(ROCKET.id, false)
-        verify(rocketsRemoteDataSource, never()).getRocketById(ROCKET.id)
-        verify(rocketsLocalDataSource).getRocketById(ROCKET.id)
-    }
-
-    companion object {
-        val ROCKET = Rocket()
+    fun `return cached rocket when remote storage throws error`(): Unit = runBlocking {
+        given(rocketsRepository.getRocket(rocket.id, forceUpdate = true)).willReturn(Resource.Error(IOException()))
+        viewModel.loadRocket(rocket.id, forceUpdate = true)
+        verify(rocketsRepository).getRocket(rocket.id, forceUpdate = false)
     }
 }

@@ -2,7 +2,7 @@ package com.serhii.repository
 
 sealed class Resource<out R> {
 
-    data class Success<out T>(val data: T) : Resource<T>()
+    data class Success<out T>(val data: T?) : Resource<T>()
     data class Error(val exception: Exception) : Resource<Nothing>()
     object Loading : Resource<Nothing>()
 
@@ -15,11 +15,11 @@ sealed class Resource<out R> {
     }
 }
 
-val Resource<*>.succeeded
+val Resource<*>.hasData
     get() = this is Resource.Success && data != null
 
 val Resource<*>.isNullData
     get() = this is Resource.Success && data == null
 
 val Resource<List<*>>.isEmptyList
-    get() = this is Resource.Success && data.isEmpty()
+    get() = this is Resource.Success && data?.isEmpty() ?: false

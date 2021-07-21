@@ -4,7 +4,9 @@ import com.serhii.repository.model.Rocket
 import com.serhii.repository.source.rockets.RocketsLocalDataSource
 import com.serhii.repository.source.rockets.RocketsRemoteDataSource
 import com.serhii.repository.Resource
+import com.serhii.repository.hasData
 import com.serhii.repository.isNullData
+import timber.log.Timber
 
 interface RocketsRepository {
     suspend fun getRocket(id: String, forceUpdate: Boolean = false): Resource<Rocket>
@@ -16,32 +18,21 @@ class RocketsRepositoryImpl(
 ) : RocketsRepository {
 
     override suspend fun getRocket(id: String, forceUpdate: Boolean): Resource<Rocket> {
-
-        suspend fun getFromRemote(): Resource<Rocket> {
-            return try {
-                updateRocketFromRemoteStorage(id)
-                localDataSource.getRocketById(id)
-            } catch (ex: Exception) {
-                Resource.Error(ex)
+        try {
+            if (forceUpdate || localDataSource.getRocketById(id).isNullData) {
+                updateFromRemoteSource(id)
             }
+        } catch (e: Exception) {
+            Timber.e(e)
+            return Resource.Error(e)
         }
-
-        return if (forceUpdate) {
-            getFromRemote()
-        } else {
-            val resource = localDataSource.getRocketById(id)
-            if (resource.isNullData) {
-                getFromRemote()
-            } else {
-                resource
-            }
-        }
+        return localDataSource.getRocketById(id)
     }
 
-    private suspend fun updateRocketFromRemoteStorage(id: String) {
+    private suspend fun updateFromRemoteSource(id: String) {
         val rocketResource = remoteDataSource.getRocketById(id)
-        if (rocketResource is Resource.Success) {
-            localDataSource.saveRocket(rocketResource.data)
+        if (rocketResource.hasData) {
+            (rocketResource as Resource.Success).data?.let { localDataSource.saveRocket(it) }
         } else if (rocketResource is Resource.Error) {
             throw rocketResource.exception
         }

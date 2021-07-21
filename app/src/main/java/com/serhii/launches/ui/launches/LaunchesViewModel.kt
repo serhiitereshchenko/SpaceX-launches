@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.repository.Resource
+import com.serhii.repository.hasData
 import com.serhii.repository.model.Launch
 import com.serhii.repository.repository.LaunchesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -29,21 +31,38 @@ class LaunchesViewModel @Inject constructor(
     fun loadLaunches(forceUpdate: Boolean = false) {
         viewModelScope.launch {
             _launches.value = Resource.Loading
+            ensureActive()
 
-            launchesRepository.getLaunches(forceUpdate).let { result ->
-                var resource: Resource<List<Launch>> = result
-                if (result is Resource.Success) {
-                    result.data.map { it.formattedDate = dateFormatter.formatDate(it.date) }
-                    filterCriteria?.let { criteria ->
-                        resource = Resource.Success(result.data.filter { criteria.filter(it) })
-                    }
-                }
-                _launches.value = resource
+            val result = getLaunchesFromRepository(forceUpdate)
+            _launches.value = result
+            ensureActive()
+
+            if (forceUpdate && result is Resource.Error) {
+                _launches.value = getLaunchesFromRepository(forceUpdate = false)
             }
         }
+    }
+
+    private suspend fun getLaunchesFromRepository(forceUpdate: Boolean): Resource<List<Launch>> {
+        val result: Resource<List<Launch>> = launchesRepository.getLaunches(forceUpdate)
+        if (result.hasData) {
+            return Resource.Success(prepareItems((result as Resource.Success).data.orEmpty()))
+        }
+        return result
+    }
+
+    private fun prepareItems(items: List<Launch>): List<Launch> {
+        var launches = items
+        filterCriteria?.let { criteria ->
+            launches = items.filter { launch: Launch -> criteria.filter(launch) }
+        }
+        launches.forEach { launch ->
+            launch.formattedDate = dateFormatter.formatDate(launch.rawDate)
+        }
+        return launches
     }
 }
 
 sealed class FilterCriteria(val filter: (launch: Launch) -> Boolean) {
-    object SuccessFilter : FilterCriteria({ it.isSuccess })
+    object SuccessLaunch : FilterCriteria({ launch -> launch.isSuccess })
 }

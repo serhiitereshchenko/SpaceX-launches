@@ -26,7 +26,6 @@ class LaunchesRemoteSourceImpl(
                 .map { launchModel -> launchModel.toLaunch() }
             Resource.Success(launches)
         } catch (e: Exception) {
-            Timber.e(e)
             Resource.Error(e)
         }
     }
