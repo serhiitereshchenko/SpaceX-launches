@@ -46,6 +46,7 @@ class LaunchesViewModelTest {
     @Test
     fun `return cached items when remote storage throws error`(): Unit = runBlocking {
         given(launchesRepository.getLaunches(forceUpdate = true)).willReturn(Resource.Error(IOException()))
+        given(launchesRepository.getLaunches()).willReturn(Resource.Success(emptyList()))
         viewModel.loadLaunches(forceUpdate = true)
         verify(launchesRepository).getLaunches(forceUpdate = false)
     }
@@ -64,7 +65,6 @@ class LaunchesViewModelTest {
             )
         )
         viewModel.filterCriteria = FilterCriteria.SuccessLaunch
-        viewModel.loadLaunches(forceUpdate = false)
         val launches = (viewModel.launches.value as? Resource.Success)?.data.orEmpty()
 
         assertEquals(3, launches.size)
@@ -86,10 +86,16 @@ class LaunchesViewModelTest {
             Resource.Success(allLaunches)
         )
         viewModel.filterCriteria = null
-        viewModel.loadLaunches(forceUpdate = false)
         val launches = (viewModel.launches.value as? Resource.Success)?.data.orEmpty()
 
         assertEquals(5, launches.size)
         assertSame(launches, allLaunches)
+    }
+
+    @Test
+    fun `load items when setting filter`(): Unit = runBlocking {
+        given(launchesRepository.getLaunches()).willReturn(Resource.Success(emptyList()))
+        viewModel.filterCriteria = FilterCriteria.SuccessLaunch
+        verify(launchesRepository).getLaunches()
     }
 }
