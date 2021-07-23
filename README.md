@@ -6,7 +6,7 @@ Simple application that parses SpaceX launches and displays it in a convenient w
 
 Application uses MVVM pattern with [Hilt](https://dagger.dev/hilt/) for DI, [Room](https://developer.android.com/jetpack/androidx/releases/room) for database and [Retrofit](https://square.github.io/retrofit/) + [OkHttp](https://square.github.io/okhttp/)  for networking.
 
-To provide easy and flexible experienc with asynchronous tasks application uses Kotlin Coroutines.
+To provide easy and flexible experience with asynchronous tasks application uses Kotlin Coroutines.
 
 <p align="left">
   <img src="https://user-images.githubusercontent.com/3418906/120925620-101a4e00-c6e2-11eb-891d-a5b059f16107.png" width="300" />
