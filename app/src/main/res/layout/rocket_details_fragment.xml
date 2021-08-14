@@ -52,7 +52,7 @@
                     app:layout_constraintTop_toBottomOf="@id/rocketName" />
 
                 <ImageView
-                    android:id="@+id/rocket_image"
+                    android:id="@+id/rocketImage"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="8dp"
