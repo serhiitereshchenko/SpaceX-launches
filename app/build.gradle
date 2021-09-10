@@ -26,7 +26,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 
     buildTypes {
@@ -56,30 +56,30 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Core
-    implementation "androidx.core:core-ktx:1.5.0"
-    implementation "androidx.appcompat:appcompat:1.3.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.annotation:annotation:1.2.0"
-    implementation "androidx.fragment:fragment-ktx:1.3.4"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
-    implementation "androidx.recyclerview:recyclerview:1.2.0"
+    implementation "androidx.fragment:fragment-ktx:1.3.6"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation project(path: ':repository')
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2-native-mt'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // Logging
-    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -89,11 +89,11 @@ dependencies {
 
     // Testing
     testImplementation "junit:junit:4.13.2"
-    testImplementation "org.mockito:mockito-core:3.6.28"
+    testImplementation 'org.mockito:mockito-core:3.12.4'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    androidTestImplementation "androidx.test.ext:junit:1.1.2"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2-native-mt'
+    testImplementation "androidx.arch.core:core-testing:$arch_version"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 }
